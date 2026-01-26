@@ -2263,42 +2263,49 @@ document.getElementById('reopen-tour-btn').addEventListener('click', function() 
     }
 });
 document.addEventListener('DOMContentLoaded', function() {
-    const toggleBtn = document.getElementById('toggle-mobile-view');
-    const toggleText = document.getElementById('toggle-view-text');
+    const toggleCard = document.getElementById('toggle-view-card');
+    const toggleText = document.getElementById('toggle-text');
+    const toggleIcon = document.getElementById('toggle-icon');
     const viewport = document.querySelector("meta[name=viewport]");
     
-    // 1. Detect if the user is on Android
+    // Detection: Only show for Android users
     const isAndroid = /Android/i.test(navigator.userAgent);
 
-    if (isAndroid) {
-        // Show the button if on Android
-        toggleBtn.classList.remove('hidden');
+    if (isAndroid && toggleCard) {
+        toggleCard.style.display = 'flex'; // Make it visible
         
-        let isWindowsView = false;
+        let isWindowsMode = false;
 
-        toggleBtn.addEventListener('click', function() {
-            if (!isWindowsView) {
-                // SWITCH TO WINDOWS VIEW (Zoom Out)
-                // Force a 1200px width and calculate the scale to fit the screen
-                const scale = window.screen.width / 1200;
-                viewport.setAttribute('content', `width=1200, initial-scale=${scale}, maximum-scale=1.0`);
+        toggleCard.addEventListener('click', function() {
+            // Start the 'Stacking' transition animation
+            document.body.classList.add('transitioning');
+
+            // Wait a moment for the animation to cover the screen before swapping
+            setTimeout(() => {
+                if (!isWindowsMode) {
+                    // ACTION: ZOOM OUT TO WINDOWS VIEW
+                    const zoomScale = window.screen.width / 1200;
+                    viewport.setAttribute('content', `width=1200, initial-scale=${zoomScale}, maximum-scale=1.0`);
+                    
+                    toggleText.textContent = "Change to Android View";
+                    toggleIcon.className = "fas fa-mobile-alt";
+                    document.body.classList.add('forced-desktop');
+                    isWindowsMode = true;
+                } else {
+                    // ACTION: RESET TO DEFAULT ANDROID VIEW
+                    viewport.setAttribute('content', "width=device-width, initial-scale=1.0");
+                    
+                    toggleText.textContent = "Change to Windows View";
+                    toggleIcon.className = "fas fa-layer-group";
+                    document.body.classList.remove('forced-desktop');
+                    isWindowsMode = false;
+                }
                 
-                toggleText.textContent = "Change to Android View";
-                document.body.classList.add('windows-view-active');
-                isWindowsView = true;
-                
-                // Show a quick notification (Optional if you have a toast system)
-                console.log("Switched to Windows View");
-            } else {
-                // SWITCH BACK TO ANDROID VIEW (Normal)
-                viewport.setAttribute('content', "width=device-width, initial-scale=1.0");
-                
-                toggleText.textContent = "Change to Windows View";
-                document.body.classList.remove('windows-view-active');
-                isWindowsView = false;
-                
-                console.log("Switched to Android View");
-            }
+                // Clean up animation class
+                setTimeout(() => {
+                    document.body.classList.remove('transitioning');
+                }, 500);
+            }, 300); 
         });
     }
 });
