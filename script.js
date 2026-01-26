@@ -2268,22 +2268,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const toggleIcon = document.getElementById('toggle-icon');
     const viewport = document.querySelector("meta[name=viewport]");
     
-    // Detection: Only show for Android users
+    // Check if device is Android
     const isAndroid = /Android/i.test(navigator.userAgent);
 
     if (isAndroid && toggleCard) {
-        toggleCard.style.display = 'flex'; // Make it visible
+        toggleCard.style.display = 'flex'; // Show the button only on Android
         
-        let isWindowsMode = false;
+        let isWindowsMode = false; // DEFAULT IS ANDROID VIEW
 
         toggleCard.addEventListener('click', function() {
-            // Start the 'Stacking' transition animation
+            // Trigger the "Stacking" visual
             document.body.classList.add('transitioning');
 
-            // Wait a moment for the animation to cover the screen before swapping
+            // Wait 0.3s for the animation to cover the screen before swapping
             setTimeout(() => {
                 if (!isWindowsMode) {
-                    // ACTION: ZOOM OUT TO WINDOWS VIEW
+                    // SWITCH TO WINDOWS VIEW (Zoom Out)
                     const zoomScale = window.screen.width / 1200;
                     viewport.setAttribute('content', `width=1200, initial-scale=${zoomScale}, maximum-scale=1.0`);
                     
@@ -2292,7 +2292,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.body.classList.add('forced-desktop');
                     isWindowsMode = true;
                 } else {
-                    // ACTION: RESET TO DEFAULT ANDROID VIEW
+                    // SWITCH BACK TO ANDROID VIEW (Default)
                     viewport.setAttribute('content', "width=device-width, initial-scale=1.0");
                     
                     toggleText.textContent = "Change to Windows View";
@@ -2300,12 +2300,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.body.classList.remove('forced-desktop');
                     isWindowsMode = false;
                 }
-                
-                // Clean up animation class
+
+                // Remove transition class after effect finishes
                 setTimeout(() => {
                     document.body.classList.remove('transitioning');
-                }, 500);
-            }, 300); 
+                }, 400);
+            }, 300);
         });
     }
 });
