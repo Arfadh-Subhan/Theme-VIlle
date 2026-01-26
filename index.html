@@ -63,7 +63,7 @@
             
             <div class="nav-logo">
                 <i class="fas fa-palette"></i>
-                <span>Theme<span class="accent">Glass</span></span>
+                <span>Theme<span class="accent">-Ville</span></span>
             </div>
             
             <ul class="nav-menu">
@@ -99,12 +99,16 @@
                 <button id="export-theme" class="icon-btn" title="Export Theme">
                     <i class="fas fa-download"></i>
                 </button>
+                <button id="reopen-tour-btn" class="glass-btn help-btn" title="View Guide">
+                    <i class="fas fa-question-circle"></i>
+                </button>
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
     <main class="main-container">
+        
         <!-- Home Section -->
         <section id="home-section" class="content-section active">
             <div class="hero-section">
@@ -272,13 +276,42 @@
                                     <div class="ios-time">9:41</div>
                                     <div class="ios-date">Friday, October 27</div>
                                     <div class="notifications-preview">
-                                        <div class="notification-item">
-                                            <i class="fas fa-message"></i>
-                                            <span>2 new messages</span>
+    <div class="notification-item">
+        <i class="fas fa-message"></i>
+        <span>2 new messages</span>
+    </div>
+
+    <div class="notification-item">
+        <i class="fas fa-calendar-check"></i>
+        <span>Meeting at 11:00</span>
+    </div>
+</div>
+                                    <div class="ios-music-widget animate-slide-up">
+                                        <div class="music-header">
+                                            <div class="album-art">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/1024px-Apple_Music_icon.svg.png" alt="Music Icon">
+        </div>
+                                            <div class="song-info">
+                                                <span class="song-name">Replay</span>
+                                                <span class="artist-name">Iyaz</span>
+                                            </div>
+                                            <i class="fab fa-apple music-app-icon"></i>
                                         </div>
-                                        <div class="notification-item">
-                                            <i class="fas fa-calendar-check"></i>
-                                            <span>Meeting at 11:00</span>
+                                        
+                                        <div class="music-progress">
+                                            <div class="progress-bar">
+                                                <div class="progress-fill"></div>
+                                            </div>
+                                            <div class="time-stamps">
+                                                <span>1:24</span>
+                                                <span>-1:38</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="music-controls">
+                                            <i class="fas fa-backward"></i>
+                                            <i class="fas fa-pause"></i>
+                                            <i class="fas fa-forward"></i>
                                         </div>
                                     </div>
                                     <div class="lock-shortcuts">
@@ -1412,6 +1445,27 @@
     
    <script src="script.js"></script>
    
-    
+<div id="tour-overlay" class="tour-overlay hidden">
+    <div class="tour-card tour-glass-white">
+        <button id="close-tour" class="tour-close" title="Skip Tour">&times;</button>
+        
+        <div class="tour-image-fixed-box">
+            <img id="tour-image" src="" alt="Guide Step">
+        </div>
+
+        <div class="tour-content">
+            <h3 id="tour-title"></h3>
+            <p id="tour-description"></p>
+            
+            <div class="tour-footer">
+                <span id="tour-progress"></span>
+                <div class="tour-btns">
+                    <button id="tour-prev" class="tour-btn-back">Back</button>
+                    <button id="tour-next" class="primary-pink-btn">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
 </body>
 </html>
