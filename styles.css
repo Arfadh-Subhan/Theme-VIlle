@@ -4739,12 +4739,11 @@ input:checked + .slider:before {
 .help-btn i {
     font-size: 1.2rem;
 }
-/* Hide button on PC/Tabs by default */
 .android-only-hidden {
-    display: none;
+    display: none; /* Keep this as is */
 }
 
-/* Stacking Transition Animation */
+/* Add the stacking animation styles */
 body.transitioning::before {
     content: '';
     position: fixed;
@@ -4760,10 +4759,4 @@ body.transitioning::before {
     0% { transform: translateY(100%); opacity: 0; }
     50% { opacity: 0.4; }
     100% { transform: translateY(-100%); opacity: 0; }
-}
-
-/* Width fix for when Windows View is active */
-body.forced-desktop {
-    width: 1200px !important;
-    overflow-x: hidden;
 }
