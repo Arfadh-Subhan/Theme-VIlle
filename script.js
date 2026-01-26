@@ -2265,43 +2265,35 @@ document.getElementById('reopen-tour-btn').addEventListener('click', function() 
 document.addEventListener('DOMContentLoaded', function() {
     const toggleCard = document.getElementById('toggle-view-card');
     const toggleText = document.getElementById('toggle-text');
-    const toggleIcon = document.getElementById('toggle-icon');
     const viewport = document.querySelector("meta[name=viewport]");
     
-    // Check if device is Android
+    // 1. Detect Android
     const isAndroid = /Android/i.test(navigator.userAgent);
 
     if (isAndroid && toggleCard) {
-        toggleCard.style.display = 'flex'; // Show the button only on Android
+        // 2. FORCE the button to show up on Android
+        toggleCard.style.display = 'flex'; 
         
-        let isWindowsMode = false; // DEFAULT IS ANDROID VIEW
+        // 3. Set default to Android view (NOT windows)
+        let isWindowsMode = false; 
 
         toggleCard.addEventListener('click', function() {
-            // Trigger the "Stacking" visual
             document.body.classList.add('transitioning');
 
-            // Wait 0.3s for the animation to cover the screen before swapping
             setTimeout(() => {
                 if (!isWindowsMode) {
-                    // SWITCH TO WINDOWS VIEW (Zoom Out)
+                    // Switch to Windows (Zoom Out)
                     const zoomScale = window.screen.width / 1200;
                     viewport.setAttribute('content', `width=1200, initial-scale=${zoomScale}, maximum-scale=1.0`);
-                    
                     toggleText.textContent = "Change to Android View";
-                    toggleIcon.className = "fas fa-mobile-alt";
-                    document.body.classList.add('forced-desktop');
                     isWindowsMode = true;
                 } else {
-                    // SWITCH BACK TO ANDROID VIEW (Default)
+                    // Switch back to Android (Default)
                     viewport.setAttribute('content', "width=device-width, initial-scale=1.0");
-                    
                     toggleText.textContent = "Change to Windows View";
-                    toggleIcon.className = "fas fa-layer-group";
-                    document.body.classList.remove('forced-desktop');
                     isWindowsMode = false;
                 }
 
-                // Remove transition class after effect finishes
                 setTimeout(() => {
                     document.body.classList.remove('transitioning');
                 }, 400);
