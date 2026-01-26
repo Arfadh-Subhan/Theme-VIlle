@@ -2,7 +2,6 @@
 // GLOBAL VARIABLES & CONFIGURATION
 // ============================================
 // Force "Desktop View" zoom out on mobile devices
-
 (function() {
     if (window.innerWidth < 1024) {
         const viewport = document.querySelector("meta[name=viewport]");
@@ -2261,5 +2260,45 @@ document.getElementById('reopen-tour-btn').addEventListener('click', function() 
     if (overlay) {
         overlay.classList.remove('hidden');
         renderTourStep(); // Refresh the content to Step 1
+    }
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleBtn = document.getElementById('toggle-mobile-view');
+    const toggleText = document.getElementById('toggle-view-text');
+    const viewport = document.querySelector("meta[name=viewport]");
+    
+    // 1. Detect if the user is on Android
+    const isAndroid = /Android/i.test(navigator.userAgent);
+
+    if (isAndroid) {
+        // Show the button if on Android
+        toggleBtn.classList.remove('hidden');
+        
+        let isWindowsView = false;
+
+        toggleBtn.addEventListener('click', function() {
+            if (!isWindowsView) {
+                // SWITCH TO WINDOWS VIEW (Zoom Out)
+                // Force a 1200px width and calculate the scale to fit the screen
+                const scale = window.screen.width / 1200;
+                viewport.setAttribute('content', `width=1200, initial-scale=${scale}, maximum-scale=1.0`);
+                
+                toggleText.textContent = "Change to Android View";
+                document.body.classList.add('windows-view-active');
+                isWindowsView = true;
+                
+                // Show a quick notification (Optional if you have a toast system)
+                console.log("Switched to Windows View");
+            } else {
+                // SWITCH BACK TO ANDROID VIEW (Normal)
+                viewport.setAttribute('content', "width=device-width, initial-scale=1.0");
+                
+                toggleText.textContent = "Change to Windows View";
+                document.body.classList.remove('windows-view-active');
+                isWindowsView = false;
+                
+                console.log("Switched to Android View");
+            }
+        });
     }
 });
