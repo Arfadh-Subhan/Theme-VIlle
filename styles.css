@@ -4739,3 +4739,31 @@ input:checked + .slider:before {
 .help-btn i {
     font-size: 1.2rem;
 }
+@media (max-width: 1024px) {
+    /* Prevent the page from horizontal wobbling */
+    body, .main-container {
+        overflow-x: hidden;
+    }
+
+    /* Target the container for Windows/macOS previews */
+    .preview-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 10px !important;
+    }
+
+    /* Shrink the frames to fit mobile screens without changing their design */
+    .windows-frame, .macos-frame {
+        transform: scale(0.4); /* Adjust this 0.4 value to zoom in or out more */
+        transform-origin: top center;
+        margin-bottom: -250px; /* Counter-act the white space created by scaling */
+    }
+
+    /* Stack the controls below the shrunk preview */
+    .platform-content {
+        grid-template-columns: 1fr !important; /* Forces layout to stack vertically */
+        gap: 20px;
+    }
+}
