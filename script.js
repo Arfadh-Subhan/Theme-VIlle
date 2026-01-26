@@ -1,6 +1,16 @@
 // ============================================
 // GLOBAL VARIABLES & CONFIGURATION
 // ============================================
+// Force "Desktop View" zoom out on mobile devices
+
+(function() {
+    if (window.innerWidth < 1024) {
+        const viewport = document.querySelector("meta[name=viewport]");
+        // This forces the virtual width to 1200px and zooms out automatically
+        viewport.setAttribute('content', 'width=1200, initial-scale=' + (window.innerWidth / 1200));
+    }
+})();
+
 const CONFIG = {
     platforms: ['ios', 'android', 'windows', 'macos'],
     defaultWallpaper: 'linear-gradient(135deg, #ff69b4 0%, #007aff 100%)',
