@@ -2253,3 +2253,50 @@ document.getElementById('reopen-tour-btn').addEventListener('click', function() 
         renderTourStep(); // Refresh the content to Step 1
     }
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleCard = document.getElementById('toggle-view-card');
+    const toggleText = document.getElementById('toggle-text');
+    const toggleIcon = document.getElementById('toggle-icon');
+    const viewport = document.querySelector("meta[name=viewport]");
+    
+    // Detection: Only show for Android users
+    const isAndroid = /Android/i.test(navigator.userAgent);
+
+    if (isAndroid && toggleCard) {
+        toggleCard.style.display = 'flex'; // Make it visible
+        
+        let isWindowsMode = false;
+
+        toggleCard.addEventListener('click', function() {
+            // Start the 'Stacking' transition animation
+            document.body.classList.add('transitioning');
+
+            // Wait a moment for the animation to cover the screen before swapping
+            setTimeout(() => {
+                if (!isWindowsMode) {
+                    // ACTION: ZOOM OUT TO WINDOWS VIEW
+                    const zoomScale = window.screen.width / 1200;
+                    viewport.setAttribute('content', `width=1200, initial-scale=${zoomScale}, maximum-scale=1.0`);
+                    
+                    toggleText.textContent = "Change to Android View";
+                    toggleIcon.className = "fas fa-mobile-alt";
+                    document.body.classList.add('forced-desktop');
+                    isWindowsMode = true;
+                } else {
+                    // ACTION: RESET TO DEFAULT ANDROID VIEW
+                    viewport.setAttribute('content', "width=device-width, initial-scale=1.0");
+                    
+                    toggleText.textContent = "Change to Windows View";
+                    toggleIcon.className = "fas fa-layer-group";
+                    document.body.classList.remove('forced-desktop');
+                    isWindowsMode = false;
+                }
+                
+                // Clean up animation class
+                setTimeout(() => {
+                    document.body.classList.remove('transitioning');
+                }, 500);
+            }, 300); 
+        });
+    }
+});
