@@ -4822,7 +4822,7 @@ body.forced-desktop #toggle-view-card * {
 
 .android-view-notification {
     position: fixed;
-    bottom: 30px;
+    top: 90px; /* Positioned right below the navigation (nav is 70px + 20px margin) */
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
@@ -4833,18 +4833,18 @@ body.forced-desktop #toggle-view-card * {
     border-radius: 24px;
     border: 1px solid rgba(255, 255, 255, 0.25);
     padding: 20px 25px;
-    z-index: 9999;
+    z-index: 999;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
     color: white;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    animation: slideUpIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideDownIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
 }
 
-@keyframes slideUpIn {
+@keyframes slideDownIn {
     from {
         opacity: 0;
-        transform: translateX(-50%) translateY(50px);
+        transform: translateX(-50%) translateY(-20px);
     }
     to {
         opacity: 1;
@@ -4852,19 +4852,19 @@ body.forced-desktop #toggle-view-card * {
     }
 }
 
-@keyframes slideDownOut {
+@keyframes slideUpOut {
     from {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
     }
     to {
         opacity: 0;
-        transform: translateX(-50%) translateY(50px);
+        transform: translateX(-50%) translateY(-20px);
     }
 }
 
 .android-view-notification.hiding {
-    animation: slideDownOut 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: slideUpOut 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .notification-content {
@@ -4876,7 +4876,7 @@ body.forced-desktop #toggle-view-card * {
 
 .notification-text {
     flex: 1;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.5;
     padding-right: 20px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -4943,18 +4943,19 @@ body.forced-desktop #toggle-view-card * {
     display: none;
 }
 
-/* Show only on Android devices */
-@media screen and (max-width: 768px) {
+/* Show only on Android devices in portrait mode */
+@media screen and (max-width: 768px) and (orientation: portrait) {
     .android-only-notification {
         display: block;
     }
 }
 
-/* Hide on landscape mode */
+/* Adjust position for landscape mode */
 @media screen and (orientation: landscape) {
     .android-view-notification {
-        bottom: 20px;
+        top: 80px;
         max-width: 400px;
+        padding: 15px 20px;
     }
 }
 
@@ -4963,4 +4964,19 @@ body.forced-desktop #toggle-view-card * {
     .android-view-notification {
         display: none !important;
     }
+}
+
+/* Dark mode adjustments */
+.dark-mode .android-view-notification {
+    background: rgba(30, 30, 30, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.dark-mode .close-notification-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode .countdown-bar {
+    background: rgba(255, 255, 255, 0.1);
 }
