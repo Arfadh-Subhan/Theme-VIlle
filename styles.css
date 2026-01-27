@@ -4817,25 +4817,25 @@ body.forced-desktop #toggle-view-card * {
 }
 
 /* ============================================ */
-/* ANDROID VIEW NOTIFICATION - iOS GLASS STYLE */
+/* ANDROID VIEW NOTIFICATION - WHITE GLASS BAR */
 /* ============================================ */
 
 .android-view-notification {
     position: fixed;
-    top: 90px; /* Positioned right below the navigation (nav is 70px + 20px margin) */
+    top: 90px; /* Positioned right below the navigation */
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
     max-width: 500px;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    padding: 20px 25px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    padding: 16px 20px;
     z-index: 999;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-    color: white;
+    box-shadow: var(--glass-shadow);
+    color: var(--text-primary);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     animation: slideDownIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
@@ -4871,40 +4871,42 @@ body.forced-desktop #toggle-view-card * {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .notification-text {
     flex: 1;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.5;
-    padding-right: 20px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    padding-right: 15px;
+    color: var(--text-primary);
+    font-weight: 500;
 }
 
 .notification-text strong {
-    color: #ff69b4;
+    color: var(--primary-pink);
     font-weight: 700;
 }
 
 .close-notification-btn {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--glass-border);
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--text-secondary);
     cursor: pointer;
     transition: all 0.3s ease;
     flex-shrink: 0;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .close-notification-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.08);
+    color: var(--text-primary);
     transform: scale(1.1);
 }
 
@@ -4914,10 +4916,11 @@ body.forced-desktop #toggle-view-card * {
 
 .countdown-bar {
     height: 4px;
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--glass-bg);
     border-radius: 2px;
     overflow: hidden;
     position: relative;
+    border: 1px solid var(--glass-border);
 }
 
 .countdown-progress {
@@ -4955,7 +4958,7 @@ body.forced-desktop #toggle-view-card * {
     .android-view-notification {
         top: 80px;
         max-width: 400px;
-        padding: 15px 20px;
+        padding: 14px 18px;
     }
 }
 
@@ -4968,15 +4971,22 @@ body.forced-desktop #toggle-view-card * {
 
 /* Dark mode adjustments */
 .dark-mode .android-view-notification {
-    background: rgba(30, 30, 30, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
 }
 
 .dark-mode .close-notification-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+}
+
+.dark-mode .close-notification-btn:hover {
     background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-primary);
 }
 
 .dark-mode .countdown-bar {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
 }
