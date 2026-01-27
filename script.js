@@ -2307,7 +2307,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleIcon = document.getElementById('toggle-icon');
     const viewport = document.querySelector('meta[name="viewport"]');
     
-    // Check if user is on Android
     const isAndroid = /Android/i.test(navigator.userAgent);
     if (isAndroid) {
         document.body.classList.add('is-android');
@@ -2319,7 +2318,6 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleBtn.addEventListener('click', () => {
             if (!isWindowsMode) {
                 // SWITCH TO WINDOWS VIEW
-                // We calculate a scale to fit the 1200px "Windows" width onto the mobile screen
                 const zoomScale = window.screen.width / 1200;
                 viewport.setAttribute('content', `width=1200, initial-scale=${zoomScale}, maximum-scale=1.0`);
                 
@@ -2327,7 +2325,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 toggleIcon.className = "fas fa-mobile-alt";
                 document.body.classList.add('forced-desktop');
                 isWindowsMode = true;
-                showToast("Switched to Windows View", "info");
+                
+                // Scroll to top so they see the new layout clearly
+                window.scrollTo(0, 0);
             } else {
                 // SWITCH BACK TO ANDROID VIEW
                 viewport.setAttribute('content', "width=device-width, initial-scale=1.0");
@@ -2336,7 +2336,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 toggleIcon.className = "fas fa-layer-group";
                 document.body.classList.remove('forced-desktop');
                 isWindowsMode = false;
-                showToast("Returned to Android View", "info");
             }
         });
     }
