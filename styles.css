@@ -4795,18 +4795,33 @@ body.forced-desktop {
 /* 2. Show only if on Android */
 @media (max-width: 768px) {
     body.is-android .android-only-hidden {
-        display: block !important;
+        display: flex !important; /* Changed to flex for card alignment */
     }
 }
 
 /* 3. The "Windows Zoom" Effect */
 body.forced-desktop {
-    width: 1200px !important; /* Forces a wide desktop width */
-    overflow-x: auto;
+    width: 1200px !important;
+    overflow-x: hidden;
     transform-origin: top left;
 }
 
-/* Smooth transition when switching */
-body {
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+/* 4. FIX: Make button float so user can find it in Windows View */
+body.forced-desktop #toggle-view-card {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) scale(1.5); /* Scaled up so it's readable while zoomed out */
+    z-index: 9999;
+    background: var(--primary-pink);
+    border: 2px solid white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    width: 200px; /* Fixed width for the floating version */
+}
+
+/* Ensure the icon inside the floating button is white */
+body.forced-desktop #toggle-view-card i,
+body.forced-desktop #toggle-view-card h3,
+body.forced-desktop #toggle-view-card p {
+    color: white !important;
 }
