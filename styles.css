@@ -4816,82 +4816,151 @@ body.forced-desktop #toggle-view-card * {
     color: white !important;
 }
 
-/* --- iOS GLASS NOTIFICATION BANNER --- */
-.ios-glass-theme {
-    position: relative;
-    /* Using your existing theme variables */
-    background: var(--glass-bg) !important; 
-    backdrop-filter: var(--glass-blur) !important;
-    -webkit-backdrop-filter: var(--glass-blur) !important;
-    border-bottom: 1px solid var(--glass-border) !important;
-    
-    padding: 15px 20px !important;
-    display: none; /* Controlled by JS */
-    flex-direction: column;
-    align-items: center;
+/* ============================================ */
+/* ANDROID VIEW NOTIFICATION - iOS GLASS STYLE */
+/* ============================================ */
+
+.android-view-notification {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 20px 25px;
     z-index: 9999;
-    width: 100%;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    animation: slideUpIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
 }
 
-/* Force show only when body has is-android class */
-body.is-android .ios-glass-theme {
-    display: flex !important;
+@keyframes slideUpIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
 }
 
-/* White Text Style */
-.banner-content {
+@keyframes slideDownOut {
+    from {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-50%) translateY(50px);
+    }
+}
+
+.android-view-notification.hiding {
+    animation: slideDownOut 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.notification-content {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 15px;
-    width: 100%;
-    color: white !important; /* Force text white */
+    justify-content: space-between;
+    margin-bottom: 15px;
 }
 
-.banner-content span, 
-.banner-content i {
-    color: white !important;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+.notification-text {
+    flex: 1;
+    font-size: 16px;
+    line-height: 1.5;
+    padding-right: 20px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* iOS Style Close Button */
-.banner-close {
-    background: rgba(255, 255, 255, 0.2) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    color: white !important;
-    width: 28px;
-    height: 28px;
+.notification-text strong {
+    color: #ff69b4;
+    font-weight: 700;
+}
+
+.close-notification-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
-    cursor: pointer;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    font-size: 18px;
 }
 
-.banner-close:hover {
-    background: rgba(255, 255, 255, 0.4) !important;
+.close-notification-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
 }
 
-/* Pink Progress Bar */
-.banner-progress-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+.close-notification-btn:active {
+    transform: scale(0.95);
+}
+
+.countdown-bar {
     height: 4px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
 }
 
-.banner-progress-fill {
+.countdown-progress {
     height: 100%;
-    /* Using your primary pink variable */
-    background: var(--primary-pink) !important; 
+    background: var(--primary-pink);
+    border-radius: 2px;
     width: 100%;
-    animation: shrinkBar 12s linear forwards !important;
+    transform-origin: left;
+    animation: countdown 12s linear forwards;
 }
 
-@keyframes shrinkBar {
-    from { width: 100%; }
-    to { width: 0%; }
+@keyframes countdown {
+    from {
+        transform: scaleX(1);
+    }
+    to {
+        transform: scaleX(0);
+    }
+}
+
+/* Only show on Android devices */
+.android-only-notification {
+    display: none;
+}
+
+/* Show only on Android devices */
+@media screen and (max-width: 768px) {
+    .android-only-notification {
+        display: block;
+    }
+}
+
+/* Hide on landscape mode */
+@media screen and (orientation: landscape) {
+    .android-view-notification {
+        bottom: 20px;
+        max-width: 400px;
+    }
+}
+
+/* Hide on larger screens (tablets/desktops) */
+@media screen and (min-width: 769px) {
+    .android-view-notification {
+        display: none !important;
+    }
 }
