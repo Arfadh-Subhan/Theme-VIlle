@@ -2301,42 +2301,37 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const toggleBtn = document.getElementById('toggle-view-card');
-    const toggleText = document.getElementById('toggle-text');
-    const toggleIcon = document.getElementById('toggle-icon');
-    const viewport = document.querySelector('meta[name="viewport"]');
-    
-    const isAndroid = /Android/i.test(navigator.userAgent);
-    if (isAndroid) {
-        document.body.classList.add('is-android');
-    }
+const toggleBtn = document.getElementById('toggle-view-card');
+const toggleText = document.getElementById('toggle-text');
+const toggleIcon = document.getElementById('toggle-icon');
+const viewport = document.querySelector('meta[name="viewport"]');
 
-    let isWindowsMode = false;
+let isWindowsMode = false;
 
-    if (toggleBtn) {
-        toggleBtn.addEventListener('click', () => {
-            if (!isWindowsMode) {
-                // SWITCH TO WINDOWS VIEW
-                const zoomScale = window.screen.width / 1200;
-                viewport.setAttribute('content', `width=1200, initial-scale=${zoomScale}, maximum-scale=1.0`);
-                
-                toggleText.textContent = "Android View";
-                toggleIcon.className = "fas fa-mobile-alt";
-                document.body.classList.add('forced-desktop');
-                isWindowsMode = true;
-                
-                // Scroll to top so they see the new layout clearly
-                window.scrollTo(0, 0);
-            } else {
-                // SWITCH BACK TO ANDROID VIEW
-                viewport.setAttribute('content', "width=device-width, initial-scale=1.0");
-                
-                toggleText.textContent = "Windows View";
-                toggleIcon.className = "fas fa-layer-group";
-                document.body.classList.remove('forced-desktop');
-                isWindowsMode = false;
-            }
-        });
-    }
-});
+if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+        if (!isWindowsMode) {
+            // STEP 1: ZOOM OUT
+            const zoomScale = window.screen.width / 1200;
+            viewport.setAttribute('content', `width=1200, initial-scale=${zoomScale}, maximum-scale=1.0`);
+            
+            // STEP 2: UPDATE BUTTON UI
+            toggleText.textContent = "Back to Android";
+            toggleIcon.className = "fas fa-mobile-alt";
+            document.body.classList.add('forced-desktop');
+            isWindowsMode = true;
+            
+            // Scroll to top so they see the header
+            window.scrollTo(0, 0);
+        } else {
+            // STEP 3: RESET TO MOBILE
+            viewport.setAttribute('content', "width=device-width, initial-scale=1.0");
+            
+            // STEP 4: RESET BUTTON UI
+            toggleText.textContent = "Windows View";
+            toggleIcon.className = "fas fa-layer-group";
+            document.body.classList.remove('forced-desktop');
+            isWindowsMode = false;
+        }
+    });
+}
