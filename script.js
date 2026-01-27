@@ -2354,6 +2354,11 @@ function showAndroidViewNotification() {
         return;
     }
     
+    // Don't show if already displaying
+    if (document.querySelector('.android-view-notification')) {
+        return;
+    }
+    
     // Create notification element
     const notification = document.createElement('div');
     notification.className = 'android-view-notification android-only-notification';
@@ -2373,9 +2378,10 @@ function showAndroidViewNotification() {
     
     document.body.appendChild(notification);
     
-    // Set timeout to auto-remove after 12 seconds
+    // Set timeout to auto-remove after 12 seconds (exactly as countdown bar)
     const autoRemoveTimeout = setTimeout(() => {
         hideNotification(notification);
+        localStorage.setItem('hasSeenAndroidNotification', 'true');
     }, 12000);
     
     // Close button functionality
@@ -2412,7 +2418,7 @@ function hideNotification(notification) {
 // Call this function after the page loads
 window.addEventListener('load', () => {
     // Add a small delay to ensure everything is loaded
-    setTimeout(showAndroidViewNotification, 2000);
+    setTimeout(showAndroidViewNotification, 1500);
 });
 
 // Also show notification when switching back from Windows view to Android view
@@ -2430,7 +2436,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const isAndroid = /Android/i.test(navigator.userAgent);
                     if (isAndroid) {
                         // Wait a moment then show notification
-                        setTimeout(showAndroidViewNotification, 1000);
+                        setTimeout(showAndroidViewNotification, 500);
                     }
                 }
             }
