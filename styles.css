@@ -4787,42 +4787,31 @@ body.forced-desktop {
     overflow-x: hidden;
 }
 
-/* --- FORCE FIXED BUTTON STYLES --- */
-
-/* 1. Normal state: In the Quick Start grid */
+/* Hide by default on PC */
 .android-only-hidden {
-    display: none; /* Hidden on PC */
+    display: none !important;
 }
 
-@media (max-width: 768px) {
-    body.is-android .android-only-hidden {
-        display: flex; /* Shown on Android */
-    }
+/* Force show on Android OR if the body has the android class */
+body.is-android .android-only-hidden {
+    display: flex !important;
 }
 
-/* 2. Forced Fixed State: When Windows View is active */
+/* THE FORCE FIXED VIEW (When Windows Mode is ON) */
 body.forced-desktop #toggle-view-card {
-    position: fixed !important; /* Force it to stay on screen */
-    bottom: 30px !important;
+    position: fixed !important;
+    bottom: 20px !important;
     left: 50% !important;
-    transform: translateX(-50%) scale(1.3) !important; /* Scale up so it's readable */
-    z-index: 100000 !important; /* Stay above everything */
-    width: 240px !important;
+    transform: translateX(-50%) scale(1.2) !important;
+    z-index: 999999 !important; /* Above everything else */
     background: var(--primary-pink) !important;
+    width: 200px !important;
     border: 2px solid white !important;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
-    padding: 15px !important;
-    border-radius: 20px !important;
+    border-radius: 15px !important;
 }
 
-/* Ensure text is white and icons are visible in the floating mode */
-body.forced-desktop #toggle-view-card i,
-body.forced-desktop #toggle-view-card h3,
-body.forced-desktop #toggle-view-card p {
+/* Ensure icons/text turn white so they are visible on the pink background */
+body.forced-desktop #toggle-view-card * {
     color: white !important;
-}
-
-/* Optional: Smooth transition for the zoom effect */
-body {
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
