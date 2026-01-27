@@ -2339,29 +2339,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
 document.addEventListener('DOMContentLoaded', () => {
     const banner = document.getElementById('android-notice');
     const closeBtn = document.getElementById('close-banner');
-    
-    // Check if user is on Android
+
+    // For testing, you can change this to: const isAndroid = true;
     const isAndroid = /Android/i.test(navigator.userAgent);
-    
+
     if (isAndroid && banner) {
         document.body.classList.add('is-android');
 
-        // 1. Handle manual close (X button)
         closeBtn.addEventListener('click', () => {
             banner.style.display = 'none';
         });
 
-        // 2. Handle 12-second auto-close
+        // 12-second auto-close
         setTimeout(() => {
-            // Fade out effect
-            banner.style.transition = 'opacity 0.5s ease';
-            banner.style.opacity = '0';
-            setTimeout(() => {
-                banner.style.display = 'none';
-            }, 500);
-        }, 12000); // 12 seconds
+            if (banner) {
+                banner.style.transition = "opacity 0.8s ease";
+                banner.style.opacity = "0";
+                setTimeout(() => banner.remove(), 800);
+            }
+        }, 12000);
     }
 });
