@@ -2348,9 +2348,8 @@ function showAndroidViewNotification() {
     // Only show on Android devices and not in Windows view
     const isAndroid = /Android/i.test(navigator.userAgent);
     const isForcedDesktop = document.body.classList.contains('forced-desktop');
-    const hasSeenNotification = localStorage.getItem('hasSeenAndroidNotification');
     
-    if (!isAndroid || isForcedDesktop || hasSeenNotification) {
+    if (!isAndroid || isForcedDesktop) {
         return;
     }
     
@@ -2381,7 +2380,6 @@ function showAndroidViewNotification() {
     // Set timeout to auto-remove after 12 seconds (exactly as countdown bar)
     const autoRemoveTimeout = setTimeout(() => {
         hideNotification(notification);
-        localStorage.setItem('hasSeenAndroidNotification', 'true');
     }, 20000);
     
     // Close button functionality
@@ -2390,7 +2388,6 @@ function showAndroidViewNotification() {
         closeBtn.addEventListener('click', () => {
             clearTimeout(autoRemoveTimeout);
             hideNotification(notification);
-            localStorage.setItem('hasSeenAndroidNotification', 'true');
         });
     }
     
@@ -2399,7 +2396,6 @@ function showAndroidViewNotification() {
         if (!e.target.closest('.close-notification-btn')) {
             clearTimeout(autoRemoveTimeout);
             hideNotification(notification);
-            localStorage.setItem('hasSeenAndroidNotification', 'true');
         }
     });
 }
@@ -2428,10 +2424,9 @@ document.addEventListener('DOMContentLoaded', function() {
         mutations.forEach(function(mutation) {
             if (mutation.attributeName === 'class') {
                 const isForcedDesktop = document.body.classList.contains('forced-desktop');
-                const hasSeenNotification = localStorage.getItem('hasSeenAndroidNotification');
                 
                 // If we just switched FROM Windows view TO Android view
-                if (!isForcedDesktop && !hasSeenNotification) {
+                if (!isForcedDesktop) {
                     // Check if we're on Android
                     const isAndroid = /Android/i.test(navigator.userAgent);
                     if (isAndroid) {
