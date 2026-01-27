@@ -2340,27 +2340,103 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const banner = document.getElementById('android-notice');
-    const closeBtn = document.getElementById('close-banner');
+// ============================================
+// ANDROID VIEW NOTIFICATION
+// ============================================
 
-    // For testing, you can change this to: const isAndroid = true;
+function showAndroidViewNotification() {
+    // Only show on Android devices and not in Windows view
     const isAndroid = /Android/i.test(navigator.userAgent);
-
-    if (isAndroid && banner) {
-        document.body.classList.add('is-android');
-
-        closeBtn.addEventListener('click', () => {
-            banner.style.display = 'none';
-        });
-
-        // 12-second auto-close
-        setTimeout(() => {
-            if (banner) {
-                banner.style.transition = "opacity 0.8s ease";
-                banner.style.opacity = "0";
-                setTimeout(() => banner.remove(), 800);
-            }
-        }, 12000);
+    const isForcedDesktop = document.body.classList.contains('forced-desktop');
+    const hasSeenNotification = localStorage.getItem('hasSeenAndroidNotification');
+    
+    if (!isAndroid || isForcedDesktop || hasSeenNotification) {
+        return;
     }
+    
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = 'android-view-notification android-only-notification';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <div class="notification-text">
+                Switch to <strong>Windows View</strong> from Quick Start menu for better layout view
+            </div>
+            <button class="close-notification-btn" id="close-notification-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="countdown-bar">
+            <div class="countdown-progress"></div>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Set timeout to auto-remove after 12 seconds
+    const autoRemoveTimeout = setTimeout(() => {
+        hideNotification(notification);
+    }, 12000);
+    
+    // Close button functionality
+    const closeBtn = document.getElementById('close-notification-btn');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            clearTimeout(autoRemoveTimeout);
+            hideNotification(notification);
+            localStorage.setItem('hasSeenAndroidNotification', 'true');
+        });
+    }
+    
+    // Also close when notification is clicked (except on the close button)
+    notification.addEventListener('click', (e) => {
+        if (!e.target.closest('.close-notification-btn')) {
+            clearTimeout(autoRemoveTimeout);
+            hideNotification(notification);
+            localStorage.setItem('hasSeenAndroidNotification', 'true');
+        }
+    });
+}
+
+function hideNotification(notification) {
+    if (notification) {
+        notification.classList.add('hiding');
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 500);
+    }
+}
+
+// Call this function after the page loads
+window.addEventListener('load', () => {
+    // Add a small delay to ensure everything is loaded
+    setTimeout(showAndroidViewNotification, 2000);
+});
+
+// Also show notification when switching back from Windows view to Android view
+document.addEventListener('DOMContentLoaded', function() {
+    // Listen for view changes
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.attributeName === 'class') {
+                const isForcedDesktop = document.body.classList.contains('forced-desktop');
+                const hasSeenNotification = localStorage.getItem('hasSeenAndroidNotification');
+                
+                // If we just switched FROM Windows view TO Android view
+                if (!isForcedDesktop && !hasSeenNotification) {
+                    // Check if we're on Android
+                    const isAndroid = /Android/i.test(navigator.userAgent);
+                    if (isAndroid) {
+                        // Wait a moment then show notification
+                        setTimeout(showAndroidViewNotification, 1000);
+                    }
+                }
+            }
+        });
+    });
+    
+    // Start observing the body element for class changes
+    observer.observe(document.body, { attributes: true });
 });
