@@ -2301,37 +2301,41 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-const toggleBtn = document.getElementById('toggle-view-card');
-const toggleText = document.getElementById('toggle-text');
-const toggleIcon = document.getElementById('toggle-icon');
-const viewport = document.querySelector('meta[name="viewport"]');
+document.addEventListener('DOMContentLoaded', () => {
+    const isTestMode = false; // CHANGE TO true TO SEE IT ON PC FOR TESTING
+    const toggleBtn = document.getElementById('toggle-view-card');
+    const toggleText = document.getElementById('toggle-text');
+    const toggleIcon = document.getElementById('toggle-icon');
+    const viewport = document.querySelector('meta[name="viewport"]');
 
-let isWindowsMode = false;
+    // Detection Logic
+    const isAndroid = /Android/i.test(navigator.userAgent) || isTestMode;
+    if (isAndroid) {
+        document.body.classList.add('is-android');
+    }
 
-if (toggleBtn) {
-    toggleBtn.addEventListener('click', () => {
-        if (!isWindowsMode) {
-            // STEP 1: ZOOM OUT
-            const zoomScale = window.screen.width / 1200;
-            viewport.setAttribute('content', `width=1200, initial-scale=${zoomScale}, maximum-scale=1.0`);
-            
-            // STEP 2: UPDATE BUTTON UI
-            toggleText.textContent = "Back to Android";
-            toggleIcon.className = "fas fa-mobile-alt";
-            document.body.classList.add('forced-desktop');
-            isWindowsMode = true;
-            
-            // Scroll to top so they see the header
-            window.scrollTo(0, 0);
-        } else {
-            // STEP 3: RESET TO MOBILE
-            viewport.setAttribute('content', "width=device-width, initial-scale=1.0");
-            
-            // STEP 4: RESET BUTTON UI
-            toggleText.textContent = "Windows View";
-            toggleIcon.className = "fas fa-layer-group";
-            document.body.classList.remove('forced-desktop');
-            isWindowsMode = false;
-        }
-    });
-}
+    let isWindowsMode = false;
+
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+            if (!isWindowsMode) {
+                // GO TO WINDOWS VIEW (Zoom Out)
+                const zoomScale = window.screen.width / 1200;
+                viewport.setAttribute('content', `width=1200, initial-scale=${zoomScale}, maximum-scale=1.0`);
+                
+                toggleText.textContent = "Android View";
+                toggleIcon.className = "fas fa-mobile-alt";
+                document.body.classList.add('forced-desktop');
+                isWindowsMode = true;
+            } else {
+                // GO BACK TO ANDROID VIEW (Reset)
+                viewport.setAttribute('content', "width=device-width, initial-scale=1.0");
+                
+                toggleText.textContent = "Windows View";
+                toggleIcon.className = "fas fa-layer-group";
+                document.body.classList.remove('forced-desktop');
+                isWindowsMode = false;
+            }
+        });
+    }
+});
