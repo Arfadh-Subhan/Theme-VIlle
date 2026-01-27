@@ -2382,7 +2382,7 @@ function showAndroidViewNotification() {
     const autoRemoveTimeout = setTimeout(() => {
         hideNotification(notification);
         localStorage.setItem('hasSeenAndroidNotification', 'true');
-    }, 15000);
+    }, 20000);
     
     // Close button functionality
     const closeBtn = document.getElementById('close-notification-btn');
