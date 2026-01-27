@@ -429,6 +429,16 @@ body {
     transform: scale(1.1);
     background: var(--primary-pink);
 }
+/* Fix for Quick Start icon color on hover */
+.action-card:hover .card-icon {
+    background: var(--primary-pink);
+    color: #ffffff !important; /* Forces the icon to turn white */
+}
+
+/* Optional: Ensures the icon transition is smooth */
+.card-icon i {
+    transition: color 0.3s ease;
+}
 
 .card-icon {
     width: 70px;
@@ -4775,4 +4785,28 @@ body.transitioning::before {
 body.forced-desktop {
     width: 1200px !important;
     overflow-x: hidden;
+}
+
+/* 1. Hide the button by default */
+.android-only-hidden {
+    display: none !important;
+}
+
+/* 2. Show only if on Android */
+@media (max-width: 768px) {
+    body.is-android .android-only-hidden {
+        display: block !important;
+    }
+}
+
+/* 3. The "Windows Zoom" Effect */
+body.forced-desktop {
+    width: 1200px !important; /* Forces a wide desktop width */
+    overflow-x: auto;
+    transform-origin: top left;
+}
+
+/* Smooth transition when switching */
+body {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
