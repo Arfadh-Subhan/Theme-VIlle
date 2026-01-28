@@ -2442,7 +2442,6 @@ document.addEventListener('DOMContentLoaded', function() {
     observer.observe(document.body, { attributes: true });
 });
 
-// Social Media Menu Toggle Logic
 document.addEventListener('DOMContentLoaded', () => {
     const trigger = document.getElementById('social-trigger');
     const menu = document.getElementById('social-menu');
@@ -2450,17 +2449,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (trigger && menu) {
         trigger.addEventListener('click', (e) => {
             e.stopPropagation();
-            menu.classList.toggle('social-menu-visible');
-            menu.classList.toggle('social-menu-hidden');
+            const isOpen = menu.classList.contains('social-menu-visible');
             
-            // Rotate the link icon when menu is open
-            const icon = trigger.querySelector('i');
-            icon.style.transform = menu.classList.contains('social-menu-visible') 
-                ? 'rotate(45deg)' 
-                : 'rotate(0deg)';
+            if (isOpen) {
+                menu.classList.remove('social-menu-visible');
+                menu.classList.add('social-menu-hidden');
+                trigger.querySelector('i').style.transform = 'rotate(0deg)';
+            } else {
+                menu.classList.add('social-menu-visible');
+                menu.classList.remove('social-menu-hidden');
+                trigger.querySelector('i').style.transform = 'rotate(45deg)';
+            }
         });
 
-        // Close menu if clicking anywhere else
+        // Close when clicking background
         document.addEventListener('click', () => {
             menu.classList.add('social-menu-hidden');
             menu.classList.remove('social-menu-visible');
