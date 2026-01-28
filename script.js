@@ -2449,36 +2449,28 @@ document.addEventListener('DOMContentLoaded', () => {
     if (trigger && menu) {
         trigger.addEventListener('click', (e) => {
             e.stopPropagation();
-            
-            // Toggle Logic
             const isVisible = menu.classList.contains('social-menu-visible');
             
             if (isVisible) {
                 menu.classList.remove('social-menu-visible');
                 menu.classList.add('social-menu-hidden');
-                trigger.querySelector('i').style.transform = 'rotate(0deg)';
+                trigger.querySelector('i').className = 'fas fa-link';
+                trigger.style.transform = 'rotate(0deg)';
             } else {
                 menu.classList.add('social-menu-visible');
                 menu.classList.remove('social-menu-hidden');
-                trigger.querySelector('i').style.transform = 'rotate(45deg)';
-                
-                // MOBILE FIX: If screen is small, ensure it doesn't overlap
-                if (window.innerWidth < 600) {
-                    menu.style.bottom = "80px"; // Moves it above the button on mobile
-                    menu.style.right = "0px";
-                } else {
-                    menu.style.bottom = "auto";
-                    menu.style.right = "auto";
-                }
+                trigger.querySelector('i').className = 'fas fa-times'; // Change to X when open
+                trigger.style.transform = 'rotate(180deg)';
             }
         });
 
-        // Close when clicking anywhere else (Important for mobile)
+        // Close menu when clicking away
         document.addEventListener('click', (e) => {
             if (!menu.contains(e.target) && !trigger.contains(e.target)) {
-                menu.classList.add('social-menu-hidden');
                 menu.classList.remove('social-menu-visible');
-                trigger.querySelector('i').style.transform = 'rotate(0deg)';
+                menu.classList.add('social-menu-hidden');
+                trigger.querySelector('i').className = 'fas fa-link';
+                trigger.style.transform = 'rotate(0deg)';
             }
         });
     }
