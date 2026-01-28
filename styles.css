@@ -5119,99 +5119,71 @@ body.forced-desktop #toggle-view-card * {
     bottom: 30px;
     right: 30px;
     display: flex;
-    flex-direction: row; /* Expansion to the left */
+    flex-direction: row; /* Horizontal alignment */
     align-items: center;
-    justify-content: flex-end;
     z-index: 9999;
-    pointer-events: none; /* Allows clicking things behind the empty space */
-}
-
-.social-trigger-btn, .social-wrapper {
-    pointer-events: auto; /* Re-enable clicking for button and menu */
 }
 
 /* White Button with Pink Icon */
 .social-trigger-btn {
-    width: 55px;
-    height: 55px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background: #ffffff;
     color: var(--primary-pink);
     border: none;
-    font-size: 22px;
+    font-size: 24px;
     cursor: pointer;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    z-index: 10;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    z-index: 2;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Horizontal Menu - Expanding to the Left */
+.social-trigger-btn:hover {
+    transform: scale(1.05);
+}
+
+/* The Wrapper (Pill shape) */
 .social-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 10px;
-    margin-right: 12px;
-    padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.25);
+    gap: 12px;
+    margin-right: 15px; /* Space between icons and button */
+    padding: 8px 15px;
+    background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 40px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-    
-    /* Animation settings */
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    transform-origin: right center;
-    overflow: hidden;
 }
 
-/* Mobile Ratio Protection */
-@media screen and (max-width: 480px) {
-    .floating-social-container {
-        right: 15px;
-        bottom: 25px;
-        width: calc(100% - 30px); /* Constrains container to screen width */
-    }
-    
-    .social-wrapper {
-        gap: 5px; /* Tighter icons on mobile */
-        padding: 6px 10px;
-        margin-right: 8px;
-        max-width: calc(100vw - 90px); /* Forces menu to stay inside the screen */
-    }
-
-    .social-icon span {
-        width: 38px !important;
-        height: 38px !important;
-        font-size: 15px !important;
-    }
-}
-
-/* Show/Hide Logic */
+/* Smooth "Slide to Left" Animation */
 .social-menu-hidden {
     opacity: 0;
     visibility: hidden;
-    width: 0;
-    padding: 0;
-    margin-right: 0;
-    transform: scaleX(0);
+    transform: translateX(50px) scale(0.5); /* Starts from the button */
+    pointer-events: none;
 }
 
 .social-menu-visible {
     opacity: 1;
     visibility: visible;
-    width: auto;
-    transform: scaleX(1);
+    transform: translateX(0) scale(1);
 }
 
-/* Icon Styles */
+/* Individual Icon Styles */
 .social-icon {
+    position: relative;
     text-decoration: none;
-    flex-shrink: 1; /* Allows icons to squeeze together on tiny screens */
+    /* Staggered transition delay using the --i variable from HTML */
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition-delay: calc(var(--i) * 0.05s);
 }
 
 .social-icon span {
@@ -5223,17 +5195,71 @@ body.forced-desktop #toggle-view-card * {
     background: #ffffff;
     color: #333;
     border-radius: 50%;
-    transition: 0.3s;
+    font-size: 18px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
 }
 
 .social-icon:hover span {
-    transform: translateY(-3px);
+    transform: translateY(-5px);
     color: #fff;
 }
 
-/* Hover Colors */
+/* Specific Brand Colors on Hover */
 .tiktok:hover span { background: #000; }
 .instagram:hover span { background: #e1306c; }
 .youtube:hover span { background: #ff0000; }
 .linkedin:hover span { background: #0077b5; }
 .github:hover span { background: #333; }
+
+/* Tooltip (Decent design) */
+.social-tooltip {
+    position: absolute;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.social-icon:hover .social-tooltip {
+    opacity: 1;
+    top: -50px;
+}
+
+/* --- ONLY ADJUSTMENT FOR ANDROID/MOBILE OVERLAP --- */
+@media screen and (max-width: 600px) {
+    .floating-social-container {
+        right: 15px; /* Bring closer to edge on mobile */
+        bottom: 20px;
+        /* Ensures the container doesn't exceed screen width */
+        max-width: calc(100vw - 30px); 
+    }
+
+    .social-wrapper {
+        margin-right: 10px;
+        gap: 8px; /* Squeezes icons closer together */
+        padding: 6px 10px;
+        /* Limits the menu expansion so it never hits the left edge */
+        max-width: calc(100vw - 100px); 
+    }
+
+    .social-icon span {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 16px !important;
+    }
+
+    .social-menu-hidden {
+        /* Adjusted for mobile spacing to prevent "jumpy" closing */
+        transform: translateX(30px) scale(0.5); 
+    }
+}
