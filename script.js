@@ -1,6 +1,18 @@
 // ============================================
 // GLOBAL VARIABLES & CONFIGURATION
 // ============================================
+// Preload tour images for Android speed
+const tourImages = [
+    "guide/guide1.jpeg", // Replace with your actual image paths
+    "guide/guide2.jpeg",
+    "guide/guide3.jpeg",
+    "guide/guide4.jpeg"
+];
+tourImages.forEach(src => {
+    const img = new Image();
+    img.src = src;
+});
+
 const CONFIG = {
     platforms: ['ios', 'android', 'windows', 'macos'],
     defaultWallpaper: 'linear-gradient(135deg, #ff69b4 0%, #007aff 100%)',
@@ -2478,3 +2490,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
