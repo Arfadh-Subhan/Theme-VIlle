@@ -2441,3 +2441,30 @@ document.addEventListener('DOMContentLoaded', function() {
     // Start observing the body element for class changes
     observer.observe(document.body, { attributes: true });
 });
+
+// Social Media Menu Toggle Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const trigger = document.getElementById('social-trigger');
+    const menu = document.getElementById('social-menu');
+
+    if (trigger && menu) {
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menu.classList.toggle('social-menu-visible');
+            menu.classList.toggle('social-menu-hidden');
+            
+            // Rotate the link icon when menu is open
+            const icon = trigger.querySelector('i');
+            icon.style.transform = menu.classList.contains('social-menu-visible') 
+                ? 'rotate(45deg)' 
+                : 'rotate(0deg)';
+        });
+
+        // Close menu if clicking anywhere else
+        document.addEventListener('click', () => {
+            menu.classList.add('social-menu-hidden');
+            menu.classList.remove('social-menu-visible');
+            trigger.querySelector('i').style.transform = 'rotate(0deg)';
+        });
+    }
+});
