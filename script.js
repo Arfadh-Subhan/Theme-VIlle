@@ -2449,28 +2449,31 @@ document.addEventListener('DOMContentLoaded', () => {
     if (trigger && menu) {
         trigger.addEventListener('click', (e) => {
             e.stopPropagation();
-            const isVisible = menu.classList.contains('social-menu-visible');
+            const isOpen = menu.classList.contains('social-menu-visible');
             
-            if (isVisible) {
+            if (isOpen) {
+                // CLOSE ANIMATION
                 menu.classList.remove('social-menu-visible');
                 menu.classList.add('social-menu-hidden');
-                trigger.querySelector('i').className = 'fas fa-link';
-                trigger.style.transform = 'rotate(0deg)';
+                trigger.querySelector('i').style.transform = 'rotate(0deg)';
+                // Stability fix: Disable interaction immediately so it doesn't glitch
+                menu.style.pointerEvents = "none";
             } else {
+                // OPEN ANIMATION
                 menu.classList.add('social-menu-visible');
                 menu.classList.remove('social-menu-hidden');
-                trigger.querySelector('i').className = 'fas fa-times'; // Change to X when open
-                trigger.style.transform = 'rotate(180deg)';
+                trigger.querySelector('i').style.transform = 'rotate(45deg)';
+                menu.style.pointerEvents = "auto";
             }
         });
 
-        // Close menu when clicking away
+        // Close when clicking background
         document.addEventListener('click', (e) => {
-            if (!menu.contains(e.target) && !trigger.contains(e.target)) {
-                menu.classList.remove('social-menu-visible');
+            if (!menu.contains(e.target)) {
                 menu.classList.add('social-menu-hidden');
-                trigger.querySelector('i').className = 'fas fa-link';
-                trigger.style.transform = 'rotate(0deg)';
+                menu.classList.remove('social-menu-visible');
+                trigger.querySelector('i').style.transform = 'rotate(0deg)';
+                menu.style.pointerEvents = "none";
             }
         });
     }
