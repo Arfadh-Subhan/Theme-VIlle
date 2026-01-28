@@ -4929,7 +4929,7 @@ body.forced-desktop #toggle-view-card * {
     border-radius: 2px;
     width: 100%;
     transform-origin: left;
-    animation: countdown 20s linear forwards;
+    animation: countdown 15s linear forwards;
 }
 
 @keyframes countdown {
@@ -4989,4 +4989,126 @@ body.forced-desktop #toggle-view-card * {
 .dark-mode .countdown-bar {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
+}
+
+/* Container positioned at bottom right */
+.floating-social-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column; /* Menu displays BELOW the button */
+    align-items: center;
+    gap: 15px;
+    z-index: 2000;
+}
+
+/* White Button with Pink Icon */
+.social-trigger-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #ffffff; /* White button as requested */
+    color: var(--primary-pink); /* Pink icon */
+    border: 1px solid var(--glass-border);
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: var(--glass-shadow);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-trigger-btn:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Horizontal Menu Layout */
+.social-wrapper {
+    display: flex;
+    flex-direction: row; /* Horizontal icons */
+    gap: 12px;
+    padding: 10px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 40px;
+    box-shadow: var(--glass-shadow);
+}
+
+/* Animation Logic */
+.social-menu-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px) scale(0.8);
+    transition: all 0.3s ease;
+}
+
+.social-menu-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    0% { opacity: 0; transform: translateY(-20px) scale(0.5); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Icon Styling */
+.social-icon {
+    position: relative;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.social-icon span {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    color: #333;
+    border-radius: 50%;
+    font-size: 18px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover span {
+    color: #fff;
+    transform: translateY(-5px);
+}
+
+/* Brand Colors on Hover */
+.tiktok:hover span { background: #000; }
+.instagram:hover span { background: #e1306c; }
+.youtube:hover span { background: #ff0000; }
+.linkedin:hover span { background: #0077b5; }
+.github:hover span { background: #333; }
+
+/* Tooltip */
+.social-tooltip {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.social-icon:hover .social-tooltip {
+    opacity: 1;
+    bottom: -35px;
 }
