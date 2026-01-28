@@ -5113,122 +5113,127 @@ body.forced-desktop #toggle-view-card * {
     top: -50px;
 }
 
-/* Base Container */
+/* Container at Bottom Right */
 .floating-social-container {
     position: fixed;
     bottom: 30px;
     right: 30px;
     display: flex;
-    flex-direction: row; 
+    flex-direction: row; /* Expansion to the left */
     align-items: center;
+    justify-content: flex-end;
     z-index: 9999;
+    pointer-events: none; /* Allows clicking things behind the empty space */
 }
 
-/* The Main Button */
+.social-trigger-btn, .social-wrapper {
+    pointer-events: auto; /* Re-enable clicking for button and menu */
+}
+
+/* White Button with Pink Icon */
 .social-trigger-btn {
-    width: 60px;
-    height: 60px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     background: #ffffff;
     color: var(--primary-pink);
     border: none;
-    font-size: 24px;
+    font-size: 22px;
     cursor: pointer;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     z-index: 10;
-    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Menu Wrapper - Improved for Mobile */
+/* Horizontal Menu - Expanding to the Left */
 .social-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 12px;
-    margin-right: 15px;
-    padding: 10px 18px;
+    gap: 10px;
+    margin-right: 12px;
+    padding: 8px 12px;
     background: rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 40px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    
+    /* Animation settings */
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform-origin: right center;
+    overflow: hidden;
 }
 
-/* Mobile Fix: Prevent Overlapping */
-@media screen and (max-width: 600px) {
+/* Mobile Ratio Protection */
+@media screen and (max-width: 480px) {
     .floating-social-container {
-        right: 20px;
-        bottom: 20px;
-        flex-direction: column-reverse; /* Stack button above icons */
-        align-items: flex-end;
+        right: 15px;
+        bottom: 25px;
+        width: calc(100% - 30px); /* Constrains container to screen width */
     }
-
+    
     .social-wrapper {
-        margin-right: 0;
-        margin-bottom: 12px;
-        flex-wrap: wrap; /* Allows icons to go to 2 lines if screen is too small */
-        justify-content: center;
-        max-width: 160px; /* Forces a neat 2-icon or 3-icon grid */
-        border-radius: 20px;
-        padding: 12px;
-    }
-
-    .social-menu-hidden {
-        transform: translateY(20px) scale(0.5) !important;
-    }
-
-    .social-menu-visible {
-        transform: translateY(0) scale(1) !important;
+        gap: 5px; /* Tighter icons on mobile */
+        padding: 6px 10px;
+        margin-right: 8px;
+        max-width: calc(100vw - 90px); /* Forces menu to stay inside the screen */
     }
 
     .social-icon span {
-        width: 42px !important;
-        height: 42px !important;
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 15px !important;
     }
 }
 
-/* Visibility Logic */
+/* Show/Hide Logic */
 .social-menu-hidden {
     opacity: 0;
     visibility: hidden;
-    transform: translateX(40px) scale(0.5);
-    pointer-events: none;
+    width: 0;
+    padding: 0;
+    margin-right: 0;
+    transform: scaleX(0);
 }
 
 .social-menu-visible {
     opacity: 1;
     visibility: visible;
-    transform: translateX(0) scale(1);
+    width: auto;
+    transform: scaleX(1);
 }
 
+/* Icon Styles */
 .social-icon {
-    position: relative;
     text-decoration: none;
-    transition: transform 0.3s ease;
+    flex-shrink: 1; /* Allows icons to squeeze together on tiny screens */
 }
 
 .social-icon span {
-    width: 48px;
-    height: 48px;
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #ffffff;
     color: #333;
     border-radius: 50%;
-    font-size: 18px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: 0.3s;
 }
 
-/* Brand Colors */
-.tiktok:hover span { background: #000; color: #fff; }
-.instagram:hover span { background: #e1306c; color: #fff; }
-.youtube:hover span { background: #ff0000; color: #fff; }
-.linkedin:hover span { background: #0077b5; color: #fff; }
-.github:hover span { background: #333; color: #fff; }
+.social-icon:hover span {
+    transform: translateY(-3px);
+    color: #fff;
+}
+
+/* Hover Colors */
+.tiktok:hover span { background: #000; }
+.instagram:hover span { background: #e1306c; }
+.youtube:hover span { background: #ff0000; }
+.linkedin:hover span { background: #0077b5; }
+.github:hover span { background: #333; }
