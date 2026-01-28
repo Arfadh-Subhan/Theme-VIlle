@@ -5112,3 +5112,39 @@ body.forced-desktop #toggle-view-card * {
     opacity: 1;
     top: -50px;
 }
+
+/* Responsive Fix for Mobile/Android */
+@media screen and (max-width: 768px) {
+    .floating-social-container {
+        right: 15px; /* Bring closer to edge */
+        bottom: 15px;
+        flex-direction: column-reverse; /* Stack button above menu if needed */
+        align-items: flex-end;
+    }
+
+    .social-wrapper {
+        margin-right: 0;
+        margin-bottom: 15px; /* Space between menu and button when stacked */
+        max-width: calc(100vw - 40px); /* Prevent overflow */
+        flex-wrap: wrap; /* Allow icons to wrap to a second row if they hit the screen edge */
+        justify-content: center;
+        padding: 10px;
+        border-radius: 25px; /* More compact shape */
+    }
+
+    /* Adjust animation for mobile to slide UP instead of LEFT */
+    .social-menu-hidden {
+        transform: translateY(20px) scale(0.8);
+        transform-origin: bottom right;
+    }
+
+    .social-menu-visible {
+        transform: translateY(0) scale(1);
+    }
+    
+    .social-icon span {
+        width: 40px; /* Slightly smaller icons for mobile */
+        height: 40px;
+        font-size: 16px;
+    }
+}
