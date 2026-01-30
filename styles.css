@@ -5085,7 +5085,7 @@ body.forced-desktop #toggle-view-card * {
 
 /* Specific Brand Colors on Hover */
 .tiktok:hover span { background: #000; }
-.instagram:hover span { background: #e1306c; }
+.pinterest:hover span { background: #e1306c; }
 .youtube:hover span { background: #ff0000; }
 .linkedin:hover span { background: #0077b5; }
 .github:hover span { background: #333; }
@@ -5316,3 +5316,4 @@ body.forced-desktop #toggle-view-card * {
     0%, 100% { transform: scale(1); opacity: 0.5; }
     50% { transform: scale(1.3); opacity: 1; }
 }
+
